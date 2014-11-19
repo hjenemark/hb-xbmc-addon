@@ -92,7 +92,7 @@ if mode == None or fullUrl == None or len(fullUrl)<1:
     xbmcplugin.addDirectoryItem(handle=addon_handle,
                                 url=liveurl, listitem=li)
     baseUrl = 'http://heartbeats.dk/'
-    extUrl = ['en', 'da', 'sv', 'fr']
+    extUrl = ['en/', 'da/', 'sv/', 'fr/']
     dirNames = ['English', 'Dansk', 'Svenska', 'Francais']
     plImageUrl = "wp-content/uploads/2014/01/logo-playlist.png"
     for i in range(len(dirNames)):
