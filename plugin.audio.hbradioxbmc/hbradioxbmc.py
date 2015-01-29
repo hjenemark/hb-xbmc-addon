@@ -1,5 +1,7 @@
 import sys
+import os
 import xbmcgui
+import xbmcaddon
 import xbmcplugin
 
 from bs4 import BeautifulSoup
@@ -9,12 +11,11 @@ addon_handle = int(sys.argv[1])
 
 xbmcplugin.setContent(addon_handle, 'audio')
 
-def addDirectory(url, dirName, plimage):
+def addDirectory(url, dirName):
 #add a new directory
     u = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode=1"
     liz = xbmcgui.ListItem(unicode(dirName),
-                           iconImage="DefaultFolder.png",
-                           thumbnailImage=plimage)
+                           iconImage="", thumbnailImage="")
     liz.setInfo(type="Audio", infoLabels={"Title":dirName})
     ok = xbmcplugin.addDirectoryItem(addon_handle,
                                  url=u,
@@ -43,7 +44,8 @@ def listPods(url):
 
 # Matches the titles and the URLs for each list entry
     for i in range(len(audiofiles)):
-        li = xbmcgui.ListItem(titles[i], iconImage='icon.png')
+        li = xbmcgui.ListItem(titles[i], iconImage='', thumbnailImage='' )
+        li.setInfo(type="Audio", infoLabels={"Title":titles[i]})
         xbmcplugin.addDirectoryItem(handle=addon_handle,
                                     url=audiofiles[i], listitem=li)
 def get_params():
@@ -88,15 +90,14 @@ except:
 if mode == None or fullUrl == None or len(fullUrl)<1:
 # Sets the live feed on top of the list
     liveurl = 'http://airtime.heartbeats.dk:8000/stream'
-    li = xbmcgui.ListItem('Heartbeats [LIVE]', iconImage='icon.png')
+    li = xbmcgui.ListItem('Heartbeats [LIVE]', iconImage='', thumbnailImage='')
     xbmcplugin.addDirectoryItem(handle=addon_handle,
                                 url=liveurl, listitem=li)
     baseUrl = 'http://heartbeats.dk/'
     extUrl = ['en/', 'da/', 'sv/', 'fr/']
-    dirNames = ['English', 'Dansk', 'Svenska', 'Francais']
-    plImageUrl = "wp-content/uploads/2014/01/logo-playlist.png"
+    dirNames = ['[PLAYLISTS] English', '[PLAYLISTS] Dansk', '[PLAYLISTS] Svenska', '[PLAYLISTS] Francais']
     for i in range(len(dirNames)):
-        addDirectory(baseUrl+extUrl[i], dirNames[i], baseUrl+plImageUrl)
+        addDirectory(baseUrl+extUrl[i], dirNames[i])
 elif mode == 1:
     print(""+fullUrl)
     listPods(fullUrl)
